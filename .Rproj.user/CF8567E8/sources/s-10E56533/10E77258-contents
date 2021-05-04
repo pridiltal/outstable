@@ -1,0 +1,31 @@
+Package: dori
+Type: Package
+Title: Data for Outlier Detection in River Networks
+Version: 0.0.0.9999
+Depends: R (>= 3.5.0)
+Authors@R: c(
+    person("Priyanga Dilini", "Talagala", email="pritalagala@gmail.com", role= c("aut","cre")),
+    person("Rob J.", "Hyndman", role=c("aut"), email = "Rob.Hyndman@monash.edu"),
+    person("Claire", "Kermorvant", role=c("aut"), email ="claire.kermorvant@univ-pau.fr"),
+    person("Puwasala", "Gamakumara", role=c("aut"), email = "puwasala.gamakumara@monash.edu")
+    )
+Maintainer: Priyanga Dilini Talagala <pritalagala@gmail.com>
+Description: Provides datasets obtained using water quality sensors positioned at different geographical locations. 
+Imports:
+    tibble,
+    tidyverse,
+    httr,
+    jsonlite,
+    lubridate,
+    purrr,
+    rlang,
+    stringr,
+    dplyr,
+    magrittr
+Suggests:
+    knitr
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr

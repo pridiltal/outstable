@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1620128993608.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "EE73C73F",
+    "lastKnownWriteTime" : 1620130080,
+    "last_content_update" : 1620130080542,
+    "path" : "~/Documents/Rpackages/outstable/R/detect_outliers.R",
+    "project_path" : "R/detect_outliers.R",
+    "properties" : {
+        "cursorPosition" : "5,10",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
