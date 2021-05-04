@@ -23,7 +23,8 @@ The goal of `outstable` is to provide a framework for detecting anomalies in tid
 ## Installation
 
 <!--
-You can install the released version of outstable from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of outstable fro
+m [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("outstable")

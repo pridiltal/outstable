@@ -23,7 +23,8 @@ approaches are available for the data cleansing process.
 ## Installation
 
 <!--
-You can install the released version of outstable from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of outstable fro
+m [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("outstable")
