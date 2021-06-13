@@ -1,3 +1,7 @@
+globalVariables(c(".fitted", ".model", ".resid", "arima",
+                  "ave", "comb", "croston", "ets", "index",
+                  "lm", "naive", "neural", "res_comb",
+                  "snaive", "value" ))
 #' Flagged anomalies and their degree of outlierness
 #'
 #' @description Flagged anomalies and their degree of
@@ -7,8 +11,11 @@
 #' @param  variable A column to find outliers
 #' @param ... Other arguments passed to [feasts::STL()].
 #' @importFrom feasts STL
-#' @importFrom fabletools model autoplot
+#' @importFrom fabletools model autoplot augment
 #' @importFrom stray find_HDoutliers
+#' @importFrom tidyr pivot_wider
+#' @import fable
+#' @import dplyr
 #' @export
 #' @examples
 #' library(fabletools)
@@ -30,29 +37,38 @@ detect_outliers <- function(.data, variable, ...) {
    # components()
 
   mod <-.data %>%
-    model(
-      ets = ETS(!!rlang::ensym(variable)),
-      arima = ARIMA(!!rlang::ensym(variable)),
-      snaive = SNAIVE(!!rlang::ensym(variable)),
-      croston= CROSTON(!!rlang::ensym(variable)),
-      ave=MEAN(!!rlang::ensym(variable)),
-      naive=NAIVE(!!rlang::ensym(variable)),
-      neural=NNETAR(!!rlang::ensym(variable)),
-      lm=TSLM(!!rlang::ensym(variable) ~ trend()+season())
+    fabletools::model(
+      ets = fable::ETS(!!rlang::ensym(variable)),
+      arima = fable::ARIMA(!!rlang::ensym(variable)),
+      snaive = fable::SNAIVE(!!rlang::ensym(variable)),
+      croston= fable::CROSTON(!!rlang::ensym(variable)),
+      ave= fable::MEAN(!!rlang::ensym(variable)),
+      naive= fable::NAIVE(!!rlang::ensym(variable)),
+      neural= fable::NNETAR(!!rlang::ensym(variable)),
+      lm=fable::TSLM(!!rlang::ensym(variable) ~ trend()+season())
     )
 
-  fit <- augment(mod) %>%
+  rescomb <-  fabletools::augment(mod) %>%
     dplyr::select(index, .model, .fitted, value) %>%
-    pivot_wider(names_from = .model, values_from = .fitted) %>%
-    rowwise() %>%
-    mutate(comb = mean(c(ets, arima,snaive,
+    tidyr::pivot_wider(names_from = .model, values_from = .fitted) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(comb = mean(c(ets, arima,snaive,
                            croston, ave, naive,
-                           neural, lm), na.rm = TRUE))
- # out <- stray::find_HDoutliers(decomp_tbl$remainder)
+                           neural, lm), na.rm = TRUE),
+                  res_comb = value - comb) %>%
+    select(res_comb)
+
+   res <- augment(mod) %>%
+     dplyr::select(index, .model, .resid, value) %>%
+     tidyr::pivot_wider(names_from = .model, values_from = .resid) %>%
+     mutate(res_comb = rescomb$res_comb )
+
+   #res <- res %>% left_join(rescomb, by = "index" )
+  # out <- stray::find_HDoutliers(decomp_tbl$remainder)
 
  # outstable <- .data %>%
  #   mutate(type = out$type, outscore = out$out_scores)
 
  # print(decomp_tbl %>% fabletools::autoplot())
-  return(fit)
+  return(res)
 }
