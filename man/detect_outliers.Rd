@@ -4,9 +4,26 @@
 \alias{detect_outliers}
 \title{Flagged anomalies and their degree of outlierness}
 \usage{
-detect_outliers()
+detect_outliers(.data, variable, ...)
+}
+\arguments{
+\item{.data}{A tsibble.}
+
+\item{variable}{A column to find outliers}
+
+\item{...}{Other arguments passed to [feasts::STL()].}
 }
 \description{
 Flagged anomalies and their degree of
  outlierness
+}
+\examples{
+library(fabletools)
+data <- USAccDeaths
+# Convert 10th data point as an outlier
+data[10] <- 700000
+p <- data \%>\%
+  tsibble::as_tsibble() \%>\%
+  detect_outliers("value", window = 40)
+p
 }

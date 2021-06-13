@@ -1,9 +1,9 @@
 {
-    "path" : "~/Documents/Rpackages/outstable/R",
-    "sortOrder" : [
+    "path": "~/Documents/Rpackages/outstable/R",
+    "sortOrder": [
         {
-            "ascending" : false,
-            "columnIndex" : 2
+            "columnIndex": 2,
+            "ascending": false
         }
     ]
 }
