@@ -18,15 +18,16 @@ Description: This work develops a framework for detecting anomalies in
     different approaches are available for the data cleansing process.
 License: GPL-3
 Imports: 
-    magrittr (>= 2.0.1),
-    rlang (>= 0.4.11),
     dplyr,
+    fable,
     fabletools,
     feasts,
+    fasster,
+    magrittr (>= 2.0.1),
+    rlang (>= 0.4.11),
     stray,
-    tsibble,
-    fable,
-    tidyr
+    tidyr,
+    tsibble
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

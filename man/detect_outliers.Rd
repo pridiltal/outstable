@@ -4,14 +4,22 @@
 \alias{detect_outliers}
 \title{Flagged anomalies and their degree of outlierness}
 \usage{
-detect_outliers(.data, variable, ...)
+detect_outliers(
+  .data,
+  variable,
+  cmbn_model = c("ets", "arima", "snaive", "naive", "croston", "ave", "neural", "lm",
+    "theta", "fasster"),
+  ...
+)
 }
 \arguments{
 \item{.data}{A tsibble.}
 
 \item{variable}{A column to find outliers}
 
-\item{...}{Other arguments passed to [feasts::STL()].}
+\item{cmbn_model}{A vector of models to compute combination forcast}
+
+\item{...}{Other arguments passed to [fabletools::model()].}
 }
 \description{
 Flagged anomalies and their degree of
@@ -24,6 +32,7 @@ data <- USAccDeaths
 data[10] <- 700000
 p <- data \%>\%
   tsibble::as_tsibble() \%>\%
-  detect_outliers("value", window = 40)
+  detect_outliers(variable = "value",
+  cmbn_model = c("naive","snaive", "ave"))
 p
 }
