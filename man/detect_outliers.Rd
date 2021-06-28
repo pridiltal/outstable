@@ -29,7 +29,7 @@ Flagged anomalies and their degree of
 library(fabletools)
 data <- USAccDeaths
 # Convert 10th data point as an outlier
-data[10] <- 700000
+data[20] <- 700000
 p <- data \%>\%
   tsibble::as_tsibble() \%>\%
   detect_outliers(variable = "value",

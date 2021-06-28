@@ -14,8 +14,9 @@ globalVariables(c(".fitted", ".model", ".resid", "arima",
 #' @importFrom feasts STL
 #' @importFrom fabletools model autoplot augment combination_model
 #' @importFrom stray find_HDoutliers
-#' @importFrom tidyr pivot_wider
+#' @importFrom tidyr pivot_wider drop_na
 #' @importFrom fasster FASSTER
+#' @importFrom tsibble index
 #' @import fable
 #' @import dplyr
 #' @export
@@ -23,7 +24,7 @@ globalVariables(c(".fitted", ".model", ".resid", "arima",
 #' library(fabletools)
 #' data <- USAccDeaths
 #' # Convert 10th data point as an outlier
-#' data[10] <- 700000
+#' data[20] <- 700000
 #' p <- data %>%
 #'   tsibble::as_tsibble() %>%
 #'   detect_outliers(variable = "value",
@@ -35,7 +36,7 @@ detect_outliers <- function(.data, variable,
                                            "ave", "neural", "lm",
                                            "theta", "fasster"), ...) {
   stopifnot(is_tsibble(.data))
-
+  index <- tsibble::index(.data)
   frq <- frequency(.data)
   model_list <-c(
    ets = fable::ETS(!!rlang::ensym(variable)),
@@ -60,7 +61,10 @@ detect_outliers <- function(.data, variable,
       cmbn_mod = fabletools::combination_model(!!!model_specs)
       )
 
-  res <- augment(mod)
+  # Find outliers based on residuals
+  res <- augment(mod) %>%
+    dplyr::select(index, .resid, value) %>%
+    tidyr::drop_na()
 
   return(res)
 }
