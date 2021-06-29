@@ -40,17 +40,25 @@ cleanse_data <- function(.data, variable, replace.missing = TRUE,
 
   if(replace.missing)
   {
+    # Find the index position of the first non-NA value
+    nonNAindex <- which(!is.na(data$.altered))
+    firstNonNA <- min(NonNAindex) - 1
+
     if(impute == "linear")
     {
+      alt <- c(rep(NA,firstNonNA),
+               zoo::na.approx(.altered))
       data <- data %>%
         dplyr::mutate(
-          .altered = zoo::na.approx(.altered))
+          .altered = alt)
     }
     if(impute == "spline")
     {
+      alt <- c(rep(NA,firstNonNA),
+               zoo::na.spline(.altered))
       data <- data %>%
         dplyr::mutate(
-          .altered = zoo::na.spline(.altered))
+          .altered = alt)
     }
 
   }
