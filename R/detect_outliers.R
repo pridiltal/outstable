@@ -77,7 +77,7 @@ detect_outliers <- function(.data, variable,
   out <- set_cutoff(res$.resid, p_rate = p_rate, trials = trials)
 
   res <- res %>%
-    dplyr::mutate(.outscore = out$out_score,
+    dplyr::mutate(.outscore = unitize(out$out_score),
                   .outtype = out$type ) %>%
     dplyr::select(-.resid)
 
@@ -87,4 +87,12 @@ detect_outliers <- function(.data, variable,
   class(data) <- c("outstable", "tbl_ts",
                    "tbl_df", "tbl", "data.frame")
   return(data)
+}
+
+unitize <- function(z) {
+  zrange <- range(z)
+  if (!(dif <- diff(zrange))) {
+    return(rep(0, length(z)))
+  }
+  ((z - zrange[2]) / dif)*(-1)
 }

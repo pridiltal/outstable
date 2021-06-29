@@ -4,12 +4,7 @@
 \alias{cleanse_data}
 \title{Replace outliers and missing values in tidy time series data.}
 \usage{
-cleanse_data(
-  .data,
-  variable,
-  replace.missing = TRUE,
-  impute = c("linear", "spline")
-)
+cleanse_data(.data, variable, replace.missing = TRUE, impute = "linear")
 }
 \arguments{
 \item{.data}{A tsibble returned by \code{detect_outliers}}
@@ -20,7 +15,7 @@ cleanse_data(
 but also interpolates missing values. Defualt is set to TRUE.}
 
 \item{impute}{Method to be used for replacing each NA with
-interpolated values. linear or spline.}
+interpolated values: "linear" or "spline." Default is set to "linear"}
 }
 \description{
 Replace outliers and missing values in

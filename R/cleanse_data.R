@@ -9,7 +9,7 @@ globalVariables(c(".altered"))
 #' @param replace.missing If TRUE, it not only replaces outliers,
 #'  but also interpolates missing values. Defualt is set to TRUE.
 #' @param impute Method to be used for replacing each NA with
-#'  interpolated values. linear or spline.
+#'  interpolated values: "linear" or "spline." Default is set to "linear"
 #' @importFrom dplyr mutate
 #' @importFrom tsibble index is_tsibble
 #' @importFrom zoo na.approx na.spline
@@ -28,7 +28,7 @@ globalVariables(c(".altered"))
 #' altered_data %>% fabletools::autoplot(.altered)
 #'
 cleanse_data <- function(.data, variable, replace.missing = TRUE,
-                         impute= c("linear", "spline"))
+                         impute= "linear")
 {
   stopifnot( is_outstable(.data))
   index <- tsibble::index(.data)
@@ -52,14 +52,7 @@ cleanse_data <- function(.data, variable, replace.missing = TRUE,
         dplyr::mutate(
           .altered = zoo::na.spline(.altered))
     }
-    else("Please specify the imputation method.")
 
   }
-
   return(data)
-
-  #cleansed_data$value <- zoo::na.approx(cleansed_data$value)
-
-
-
 }
