@@ -36,7 +36,7 @@ p <- data \%>\%
   detect_outliers(variable = "value",
   cmbn_model = c("arima", "theta", "ave"),
   p_rate = 0.001)
-altered_data <- p \%>\% cleanse_data(variable = "value", impute = "linear")
+altered_data <- p \%>\% cleanse_data(variable = "value", impute = "spline")
 altered_data \%>\% fabletools::autoplot(.altered)
 
 }
