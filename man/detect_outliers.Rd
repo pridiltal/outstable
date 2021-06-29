@@ -9,6 +9,8 @@ detect_outliers(
   variable,
   cmbn_model = c("ets", "arima", "snaive", "naive", "croston", "ave", "neural", "lm",
     "theta", "fasster"),
+  p_rate = 0.01,
+  trials = 500,
   ...
 )
 }
@@ -19,7 +21,16 @@ detect_outliers(
 
 \item{cmbn_model}{A vector of models to compute combination forcast}
 
+\item{p_rate}{False positive rate. Default value is set to 0.001.}
+
+\item{trials}{Number of trials to generate the extreme value distirbution. Default value is set to 500.}
+
 \item{...}{Other arguments passed to [fabletools::model()].}
+}
+\value{
+It returns a tsibble with class 'outstable' containing the following components:
+   \item{.outscore}{The degree of outlierness.}
+   \item{.outtype}{Type of the data point" outlier or typical}
 }
 \description{
 Flagged anomalies and their degree of
@@ -28,11 +39,14 @@ Flagged anomalies and their degree of
 \examples{
 library(fabletools)
 data <- USAccDeaths
-# Convert 10th data point as an outlier
-data[20] <- 700000
+# Convert 20th data point as an outlier
+data[20] <- data[20]*5
 p <- data \%>\%
   tsibble::as_tsibble() \%>\%
   detect_outliers(variable = "value",
-  cmbn_model = c("naive","snaive", "ave"))
-p
+  cmbn_model = c("arima", "theta", "ave"),
+  p_rate = 0.001)
+p \%>\% dplyr::filter(.outtype == "outlier")
+p \%>\% fabletools::autoplot(value)
+
 }
