@@ -35,8 +35,8 @@ cleanse_data <- function(.data, variable, replace.missing = TRUE,
 
   data <- .data %>%
     dplyr::mutate(.altered =
-                    ifelse(.outtype == "outlier", NA,
-                           !!rlang::ensym(variable)))
+                    ifelse(.outtype == "typical",
+                           !!rlang::ensym(variable),NA))
 
   if(replace.missing)
   {
