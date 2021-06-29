@@ -35,14 +35,14 @@ cleanse_data <- function(.data, variable, replace.missing = TRUE,
 
   data <- .data %>%
     dplyr::mutate(.altered =
-                    ifelse(.outtype == "typical",
+                    ifelse(.data$.outtype == "typical",
                            !!rlang::ensym(variable),NA))
 
   if(replace.missing)
   {
     # Find the index position of the first non-NA value
     nonNAindex <- which(!is.na(data$.altered))
-    firstNonNA <- min(NonNAindex) - 1
+    firstNonNA <- min(nonNAindex) - 1
 
     if(impute == "linear")
     {
