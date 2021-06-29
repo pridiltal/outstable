@@ -1,3 +1,4 @@
+globalVariables(c(".altered"))
 #' Replace outliers and missing values in tidy time series data.
 #'
 #' @description Replace outliers and missing values in
@@ -23,7 +24,7 @@
 #'   detect_outliers(variable = "value",
 #'   cmbn_model = c("arima", "theta", "ave"),
 #'   p_rate = 0.001)
-#' altered_data <- p %>% cleanse_data(variable = "value", impute = linear")
+#' altered_data <- p %>% cleanse_data(variable = "value", impute = "linear")
 #' altered_data %>% fabletools::autoplot(.altered)
 #'
 cleanse_data <- function(.data, variable, replace.missing = TRUE,

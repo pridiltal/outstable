@@ -4,7 +4,12 @@
 \alias{cleanse_data}
 \title{Replace outliers and missing values in tidy time series data.}
 \usage{
-cleanse_data(.data, variable, replace.missing = TRUE)
+cleanse_data(
+  .data,
+  variable,
+  replace.missing = TRUE,
+  impute = c("linear", "spline")
+)
 }
 \arguments{
 \item{.data}{A tsibble returned by \code{detect_outliers}}
@@ -13,6 +18,9 @@ cleanse_data(.data, variable, replace.missing = TRUE)
 
 \item{replace.missing}{If TRUE, it not only replaces outliers,
 but also interpolates missing values. Defualt is set to TRUE.}
+
+\item{impute}{Method to be used for replacing each NA with
+interpolated values. linear or spline.}
 }
 \description{
 Replace outliers and missing values in
@@ -28,7 +36,7 @@ p <- data \%>\%
   detect_outliers(variable = "value",
   cmbn_model = c("arima", "theta", "ave"),
   p_rate = 0.001)
-altered_data <- p \%>\% cleanse_data(variable = "value")
+altered_data <- p \%>\% cleanse_data(variable = "value", impute = "linear")
 altered_data \%>\% fabletools::autoplot(.altered)
 
 }
