@@ -4,7 +4,6 @@
 # outstable
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 The goal of `outstable` is to provide a framework for detecting
@@ -43,6 +42,34 @@ devtools::install_github("pridiltal/outstable")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(outstable)
-## basic example code
+library(fabletools)
+data <- USAccDeaths
+# Convert 20th data point as an outlier
+data[20] <- data[20]*5
+
+data %>%
+  tsibble::as_tsibble() %>%
+  fabletools::autoplot(value)
 ```
+
+<img src="man/figures/README-example-1.png" width="100%" />
+
+``` r
+p <- data %>%
+  tsibble::as_tsibble() %>%
+  outstable::detect_outliers(
+    variable = "value",
+    cmbn_model = c("arima", "theta",
+                   "ave"),
+    p_rate = 0.001)
+
+altered_data <- p %>% 
+  outstable::cleanse_data(
+    variable = "value",
+    impute = "spline")
+
+altered_data %>%
+  fabletools::autoplot(.altered)
+```
+
+<img src="man/figures/README-example-2.png" width="100%" />

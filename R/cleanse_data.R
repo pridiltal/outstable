@@ -47,7 +47,7 @@ cleanse_data <- function(.data, variable, replace.missing = TRUE,
     if(impute == "linear")
     {
       alt <- c(rep(NA,firstNonNA),
-               zoo::na.approx(.altered))
+               zoo::na.approx(data$.altered))
       data <- data %>%
         dplyr::mutate(
           .altered = alt)
@@ -55,7 +55,7 @@ cleanse_data <- function(.data, variable, replace.missing = TRUE,
     if(impute == "spline")
     {
       alt <- c(rep(NA,firstNonNA),
-               zoo::na.spline(.altered))
+               zoo::na.spline(data$.altered))
       data <- data %>%
         dplyr::mutate(
           .altered = alt)
